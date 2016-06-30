@@ -19,6 +19,7 @@ package cern.c2mon.web.restapi.controller;
 import static cern.c2mon.web.restapi.version.ApiVersion.API_V1;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
+import cern.c2mon.client.core.AlarmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cern.c2mon.shared.client.alarm.AlarmValue;
 import cern.c2mon.web.restapi.exception.UnknownResourceException;
-import cern.c2mon.web.restapi.service.AlarmService;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Controller entry point for alarm API requests.
@@ -66,6 +69,12 @@ public class AlarmController {
   @RequestMapping(value = ALARM_VALUE_MAPPING, method = GET, produces = { API_V1 })
   @ResponseBody
   public AlarmValue getAlarmValue(@PathVariable final Long id) throws UnknownResourceException {
-    return service.getAlarmValue(id);
+    List<AlarmValue> list = (List<AlarmValue>) service.getAlarms(Collections.singletonList(id));
+
+    if (list.isEmpty()) {
+      throw new UnknownResourceException("No alarm with id " + id + " was found.");
+    } else {
+      return list.get(0);
+    }
   }
 }

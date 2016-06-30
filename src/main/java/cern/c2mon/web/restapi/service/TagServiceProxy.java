@@ -18,6 +18,8 @@ package cern.c2mon.web.restapi.service;
 
 import cern.c2mon.client.common.listener.TagListener;
 import cern.c2mon.client.common.tag.Tag;
+import cern.c2mon.client.core.ConfigurationService;
+import cern.c2mon.client.core.TagService;
 import cern.c2mon.shared.client.tag.TagConfig;
 import cern.c2mon.web.restapi.cache.TagCache;
 import cern.c2mon.web.restapi.exception.UnknownResourceException;
@@ -36,13 +38,13 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class TagService implements TagListener {
+public class TagServiceProxy implements TagListener {
 
-  /**
-   * Reference to the service gateway bean.
-   */
   @Autowired
-  private ServiceGateway gateway;
+  private TagService tagService;
+
+  @Autowired
+  private ConfigurationService configurationService;
 
   /**
    * Reference to the data tag cache.
@@ -67,7 +69,7 @@ public class TagService implements TagListener {
     }
 
     // Otherwise, try to get the tag from the server
-    List<Tag> list = (List<Tag>) gateway.getTagService().get(Collections.singletonList(id));
+    List<Tag> list = (List<Tag>) tagService.get(Collections.singletonList(id));
     if (list.isEmpty()) {
       throw new UnknownResourceException("No tag with id " + id + " was found.");
     } else {
@@ -75,7 +77,7 @@ public class TagService implements TagListener {
     }
 
     // Subscribe to the tag and add it to the cache
-    gateway.getTagService().subscribe(id, this);
+    tagService.subscribe(id, this);
     cache.add(tag);
 
     return tag;
@@ -92,7 +94,7 @@ public class TagService implements TagListener {
   public TagConfig getTagConfig(Long id) throws UnknownResourceException {
     TagConfig tagConfig;
 
-    List<TagConfig> list = (List<TagConfig>) gateway.getConfigurationService().getTagConfigurations(Collections.singletonList(id));
+    List<TagConfig> list = (List<TagConfig>) configurationService.getTagConfigurations(Collections.singletonList(id));
     if (list.isEmpty()) {
       throw new UnknownResourceException("No tag with id " + id + " was found.");
     } else {

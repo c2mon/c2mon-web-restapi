@@ -58,7 +58,7 @@ public class HistoryTagValueUpdateSerializer extends JsonSerializer<HistoryTagVa
 
     generator.writeStringField("mode", value.getMode().toString());
     generator.writeBooleanField("simulated", value.isSimulated());
-    generator.writeStringField("dataType", value.getDataType());
+    generator.writeStringField("dataType", value.getValueClassName());
     generator.writeObjectField("quality", value.getDataTagQuality());
 
     // Alarms are not stored in the STL

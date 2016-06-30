@@ -16,55 +16,61 @@
  *****************************************************************************/
 package cern.c2mon.web.restapi.controller;
 
-import cern.c2mon.client.common.tag.CommandTag;
-import cern.c2mon.web.restapi.exception.UnknownResourceException;
-import cern.c2mon.web.restapi.service.CommandService;
+import static cern.c2mon.web.restapi.version.ApiVersion.API_V1;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+
+import cern.c2mon.client.common.tag.Tag;
+import cern.c2mon.shared.client.tag.TagConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import static cern.c2mon.web.restapi.version.ApiVersion.API_V1;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import cern.c2mon.web.restapi.exception.UnknownResourceException;
+import cern.c2mon.web.restapi.service.TagServiceProxy;
 
 /**
- * Controller entry point for command API requests.
+ * Controller entry point for data tag API requests.
  *
  * @author Justin Lewis Salmon
  */
 @Controller
-public class CommandController {
+public class TagController {
 
   /**
-   * The URL mapping to be used for retrieving commands.
+   * The URL mapping to be used for retrieving data tags.
    */
-  private static final String COMMAND_VALUE_MAPPING = "/commands/{id}";
+  private static final String DATATAG_VALUE_MAPPING = "/datatags/{id}";
 
   /**
-   * Reference to the command service bean.
+   * Reference to the data tag service bean.
    */
   @Autowired
-  private CommandService service;
+  private TagServiceProxy service;
 
   /**
    * Spring MVC request mapping entry point for requests to the URL defined by
-   * COMMAND_VALUE_MAPPING.
+   * DATATAG_VALUE_MAPPING.
    *
    * <p>
    * Note: only GET requests are allowed to this URL.
    * </p>
    *
-   * @param id the path variable representing the ID of the command to be
-   *          retrieved
-   * @return the {@link CommandTag} object itself, which will be
-   *         automatically serialised by Spring
+   * @param id the path variable representing the ID of the data tag to be retrieved
+   * @return the {@link Tag} object itself, which will be automatically serialised by Spring
    *
-   * @throws UnknownResourceException if no command was found with the given ID
+   * @throws UnknownResourceException if no data tag was found with the given ID
    */
-  @RequestMapping(value = COMMAND_VALUE_MAPPING, method = GET, produces = { API_V1 })
+  @RequestMapping(value = DATATAG_VALUE_MAPPING, method = GET, produces = { API_V1 })
   @ResponseBody
-  public CommandTag<?> getCommand(@PathVariable final Long id) throws UnknownResourceException {
-    return service.getCommand(id);
+  public Tag getTag(@PathVariable final Long id) throws UnknownResourceException {
+    return service.getTag(id);
+  }
+
+  @RequestMapping(value = DATATAG_VALUE_MAPPING + "/config", method = GET, produces = { API_V1 })
+  @ResponseBody
+  public TagConfig getTagConfig(@PathVariable final Long id) throws UnknownResourceException {
+    return service.getTagConfig(id);
   }
 }

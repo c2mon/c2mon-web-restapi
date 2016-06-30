@@ -1,35 +1,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
-    <groupId>cern.c2mon.c2mon-client</groupId>
-    <artifactId>c2mon-client-pom</artifactId>
-    <version>1.6.0</version>
+    <groupId>cern.c2mon.client</groupId>
+    <artifactId>c2mon-client</artifactId>
+    <version>1.8.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>cern.c2mon.c2mon-web</groupId>
   <artifactId>c2mon-web-restapi</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
-  <name>c2mon-web-restapi</name>
-  <description>C2MON REST API</description>
+
+  <scm>
+    <url>https://gitlab.cern.ch/c2mon/c2mon-web-restapi</url>
+    <connection>scm:git:git://gitlab.cern.ch/c2mon/c2mon-web-restapi.git</connection>
+    <developerConnection>scm:git:git@gitlab.cern.ch:7999/c2mon/c2mon-web-restapi.git</developerConnection>
+  </scm>
 
   <dependencies>
-
     <!-- C2MON dependencies -->
     <dependency>
-      <groupId>cern.c2mon.c2mon-client</groupId>
-      <artifactId>c2mon-client-all</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-log4j12</artifactId>
-        </exclusion>
-      </exclusions>
+      <groupId>cern.c2mon.client</groupId>
+      <artifactId>c2mon-client-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>cern.c2mon.c2mon-client</groupId>
+      <groupId>cern.c2mon.client</groupId>
       <artifactId>c2mon-client-ext-history</artifactId>
-      <version>[1.6.5, 2.0.0)</version>
+      <version>1.8.0-SNAPSHOT</version>
     </dependency>
 
     <!-- 3rd-party dependencies -->
@@ -39,19 +35,16 @@
       <version>1.3.0.RELEASE</version>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-      <version>1.9.4</version>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-core-asl</artifactId>
-      <version>1.9.4</version>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-jaxrs</artifactId>
-      <version>1.9.4</version>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
     </dependency>
     <dependency>
       <groupId>xml-apis</groupId>
@@ -64,20 +57,10 @@
     </dependency>
   </dependencies>
 
-  <scm>
-    <developerConnection>scm:svn:svn+ssh://svn.cern.ch/reps/tim2/trunk/c2mon/c2mon-client/c2mon-web-restapi</developerConnection>
-  </scm>
+
 
   <build>
     <finalName>${project.name}-${project.version}</finalName>
-
-    <resources>
-      <resource>
-        <!-- This is needed to pull in the resources into the built JAR, because the parent POM forces us to use a non-standard directory layout. -->
-        <!-- We wouldn't need this if we had src/main/java, src/main/resources etc. -->
-        <directory>src/resources</directory>
-      </resource>
-    </resources>
 
     <plugins>
       <plugin>

@@ -17,7 +17,10 @@
 package cern.c2mon.web.restapi.service;
 
 import cern.c2mon.client.common.tag.Tag;
+import cern.c2mon.client.core.AlarmService;
+import cern.c2mon.client.core.TagService;
 import cern.c2mon.client.ext.history.C2monHistoryGateway;
+import cern.c2mon.client.ext.history.HistoryManager;
 import cern.c2mon.client.ext.history.common.HistoryLoadingConfiguration;
 import cern.c2mon.client.ext.history.common.HistoryLoadingManager;
 import cern.c2mon.client.ext.history.common.HistoryProvider;
@@ -31,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -50,11 +54,14 @@ public class HistoryService {
    */
   private HistoryProvider historyProvider;
 
-  /**
-   * Reference to the service gateway bean.
-   */
   @Autowired
-  private ServiceGateway gateway;
+  private HistoryManager historyManager;
+
+  @Autowired
+  private TagService tagService;
+
+  @Autowired
+  private AlarmService alarmService;
 
   /**
    * Constructor.
@@ -63,8 +70,13 @@ public class HistoryService {
    *           {@link HistoryProvider}.
    */
   public HistoryService() throws HistoryProviderException {
+
+  }
+
+  @PostConstruct
+  public void init() throws HistoryProviderException {
     try {
-      historyProvider = C2monHistoryGateway.getHistoryManager().getHistoryProviderFactory().createHistoryProvider();
+      historyProvider = historyManager.getHistoryProviderFactory().createHistoryProvider();
 
     } catch (HistoryProviderException e) {
       logger.error("Error instantiating HistoryService", e);
@@ -153,7 +165,7 @@ public class HistoryService {
    * @throws LoadingParameterException if an error occurs retrieving the history
    */
   private List<HistoryTagValueUpdate> getHistory(Long id, HistoryLoadingConfiguration configuration) throws LoadingParameterException {
-    final HistoryLoadingManager loadingManager = C2monHistoryGateway.getHistoryManager().createHistoryLoadingManager(historyProvider, Collections.singletonList(id));
+    final HistoryLoadingManager loadingManager = historyManager.createHistoryLoadingManager(historyProvider, Collections.singletonList(id));
 
     try {
       loadingManager.setConfiguration(configuration);
@@ -178,7 +190,7 @@ public class HistoryService {
   private void checkTagExistence(final Long id, final String type) throws UnknownResourceException {
 
     if (type.equals("datatags")) {
-      Collection<Tag> tags = gateway.getTagService().get(Collections.singletonList(id));
+      Collection<Tag> tags = tagService.get(Collections.singletonList(id));
 
       if (tags.isEmpty()) {
         throw new UnknownResourceException("No datatag was found with id " + id);
@@ -186,7 +198,7 @@ public class HistoryService {
     }
 
     else if (type.equals("alarms")) {
-      Collection<AlarmValue> alarms = gateway.getAlarmService().getAlarms(Collections.singletonList(id));
+      Collection<AlarmValue> alarms = alarmService.getAlarms(Collections.singletonList(id));
 
       if (alarms.isEmpty()) {
         throw new UnknownResourceException("No alarm was found with id " + id);
