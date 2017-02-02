@@ -16,14 +16,15 @@
  *****************************************************************************/
 package cern.c2mon.web.restapi.controller;
 
-import cern.c2mon.client.common.tag.CommandTag;
-import cern.c2mon.client.core.CommandService;
-import cern.c2mon.web.restapi.exception.UnknownResourceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import cern.c2mon.client.common.tag.CommandTag;
+import cern.c2mon.client.core.service.CommandService;
+import cern.c2mon.web.restapi.exception.UnknownResourceException;
 
 import static cern.c2mon.web.restapi.version.ApiVersion.API_V1;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;

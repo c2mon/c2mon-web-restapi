@@ -16,20 +16,21 @@
  *****************************************************************************/
 package cern.c2mon.web.restapi.service;
 
-import cern.c2mon.client.common.listener.TagListener;
-import cern.c2mon.client.common.tag.Tag;
-import cern.c2mon.client.core.ConfigurationService;
-import cern.c2mon.client.core.TagService;
-import cern.c2mon.shared.client.tag.TagConfig;
-import cern.c2mon.web.restapi.cache.TagCache;
-import cern.c2mon.web.restapi.exception.UnknownResourceException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import cern.c2mon.client.common.listener.TagListener;
+import cern.c2mon.client.common.tag.Tag;
+import cern.c2mon.client.core.service.ConfigurationService;
+import cern.c2mon.client.core.service.TagService;
+import cern.c2mon.shared.client.tag.TagConfig;
+import cern.c2mon.web.restapi.cache.TagCache;
+import cern.c2mon.web.restapi.exception.UnknownResourceException;
 
 /**
  * Service bean for accessing {@link Tag} objects from the C2MON server.

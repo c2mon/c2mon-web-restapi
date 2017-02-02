@@ -16,21 +16,21 @@
  *****************************************************************************/
 package cern.c2mon.web.restapi.controller;
 
-import static cern.c2mon.web.restapi.version.ApiVersion.API_V1;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import java.util.Collections;
+import java.util.List;
 
-import cern.c2mon.client.core.AlarmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cern.c2mon.client.core.service.AlarmService;
 import cern.c2mon.shared.client.alarm.AlarmValue;
 import cern.c2mon.web.restapi.exception.UnknownResourceException;
 
-import java.util.Collections;
-import java.util.List;
+import static cern.c2mon.web.restapi.version.ApiVersion.API_V1;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /**
  * Controller entry point for alarm API requests.

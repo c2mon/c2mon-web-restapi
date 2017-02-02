@@ -16,10 +16,19 @@
  *****************************************************************************/
 package cern.c2mon.web.restapi.service;
 
+import java.sql.Timestamp;
+import java.util.*;
+
+import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import cern.c2mon.client.common.tag.Tag;
-import cern.c2mon.client.core.AlarmService;
-import cern.c2mon.client.core.TagService;
-import cern.c2mon.client.ext.history.C2monHistoryGateway;
+import cern.c2mon.client.core.service.AlarmService;
+import cern.c2mon.client.core.service.TagService;
 import cern.c2mon.client.ext.history.HistoryManager;
 import cern.c2mon.client.ext.history.common.HistoryLoadingConfiguration;
 import cern.c2mon.client.ext.history.common.HistoryLoadingManager;
@@ -29,14 +38,6 @@ import cern.c2mon.client.ext.history.common.exception.HistoryProviderException;
 import cern.c2mon.client.ext.history.common.exception.LoadingParameterException;
 import cern.c2mon.shared.client.alarm.AlarmValue;
 import cern.c2mon.web.restapi.exception.UnknownResourceException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import java.sql.Timestamp;
-import java.util.*;
 
 /**
  * Service bean for accessing historical data for supported resources from the
