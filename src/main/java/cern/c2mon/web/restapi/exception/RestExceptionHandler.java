@@ -16,16 +16,17 @@
  *****************************************************************************/
 package cern.c2mon.web.restapi.exception;
 
-import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.beans.TypeMismatchException;
+
 
 import cern.c2mon.client.ext.history.common.HistoryProvider;
 import cern.c2mon.client.ext.history.common.exception.HistoryProviderException;
 import cern.c2mon.client.ext.history.common.exception.LoadingParameterException;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * This class handles all exceptions thrown by request handler methods and
@@ -33,7 +34,7 @@ import cern.c2mon.client.ext.history.common.exception.LoadingParameterException;
  *
  * @author Justin Lewis Salmon
  */
-@ControllerAdvice
+@Controller
 public class RestExceptionHandler {
 
   /**

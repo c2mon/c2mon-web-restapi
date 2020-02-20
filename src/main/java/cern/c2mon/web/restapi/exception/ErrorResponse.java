@@ -25,6 +25,7 @@ import org.springframework.http.HttpStatus;
  *
  * @author Justin Lewis Salmon
  */
+
 @Data
 class ErrorResponse {
 
