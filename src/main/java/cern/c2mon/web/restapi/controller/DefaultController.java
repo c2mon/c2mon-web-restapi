@@ -20,7 +20,6 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 
 import cern.c2mon.web.restapi.exception.UnknownResourceException;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -38,7 +37,7 @@ public class DefaultController implements ErrorController {
    * When a request is made to the API root, show a HTML page with some
    * documentation about the API.
    */
-  @GetMapping("/")
+  @RequestMapping("/")
   public String index() {
     return "index";
   }
