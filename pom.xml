@@ -5,7 +5,7 @@
   <parent>
     <groupId>cern.c2mon.client</groupId>
     <artifactId>c2mon-client</artifactId>
-    <version>1.9.2</version>
+    <version>1.8.30</version>
   </parent>
 
   <artifactId>c2mon-web-restapi</artifactId>
