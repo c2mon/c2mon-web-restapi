@@ -96,7 +96,7 @@
         <configuration>
           <mainClass>cern.c2mon.web.restapi.Application</mainClass>
           <finalName>${project.name}-${project.version}</finalName>
-          <executable>true</executable>
+          <executable>false</executable>
         </configuration>
         <executions>
           <execution>
