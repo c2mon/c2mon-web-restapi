@@ -16,20 +16,19 @@
  *****************************************************************************/
 package cern.c2mon.web.restapi.service;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cern.c2mon.client.common.listener.TagListener;
+import lombok.extern.slf4j.Slf4j;
+
+import cern.c2mon.client.common.listener.BaseTagListener;
 import cern.c2mon.client.common.tag.Tag;
 import cern.c2mon.client.core.service.ConfigurationService;
 import cern.c2mon.client.core.service.TagService;
 import cern.c2mon.shared.client.tag.TagConfig;
-import cern.c2mon.web.restapi.cache.TagCache;
 import cern.c2mon.web.restapi.exception.UnknownResourceException;
 
 /**
@@ -39,19 +38,13 @@ import cern.c2mon.web.restapi.exception.UnknownResourceException;
  */
 @Service
 @Slf4j
-public class TagServiceProxy implements TagListener {
+public class TagServiceProxy implements BaseTagListener {
 
   @Autowired
   private TagService tagService;
 
   @Autowired
   private ConfigurationService configurationService;
-
-  /**
-   * Reference to the data tag cache.
-   */
-  @Autowired
-  private TagCache cache;
 
   /**
    * Retrieve a {@link Tag} object.
@@ -62,26 +55,12 @@ public class TagServiceProxy implements TagListener {
    * @throws UnknownResourceException if no tag could be found with the given ID
    */
   public Tag getTag(Long id) throws UnknownResourceException {
-    Tag tag;
-
     // Try to get the tag from the cache
-    if (cache.contains(id)) {
-      return cache.get(id);
+    if (!tagService.getSubscriptionIds(this).contains(id)) {
+      tagService.subscribe(id, this);
     }
 
-    // Otherwise, try to get the tag from the server
-    List<Tag> list = (List<Tag>) tagService.get(Collections.singletonList(id));
-    if (list.isEmpty()) {
-      throw new UnknownResourceException("No tag with id " + id + " was found.");
-    } else {
-      tag = list.get(0);
-    }
-
-    // Subscribe to the tag and add it to the cache
-    tagService.subscribe(id, this);
-    cache.add(tag);
-
-    return tag;
+    return tagService.get(id);
   }
 
   /**
@@ -106,15 +85,7 @@ public class TagServiceProxy implements TagListener {
   }
 
   @Override
-  public void onInitialUpdate(Collection<Tag> initialValues) {
-    for (Tag tag : initialValues) {
-      cache.add(tag);
-    }
-  }
-
-  @Override
   public void onUpdate(Tag tag) {
-    // Update the tag in the cache
-    cache.add(tag);
+    log.trace("Got update for tag #{}", tag.getId());
   }
 }
