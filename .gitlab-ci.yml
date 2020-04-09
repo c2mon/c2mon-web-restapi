@@ -27,6 +27,7 @@ build:
     - mvn -U -B test -Djavax.net.ssl.trustStore=${JAVA_HOME}/jre/lib/security/cacerts --settings settings.xml
   except:
     - master
+    - tags
     
 sonar_preview:
   type: sonar
