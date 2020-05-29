@@ -4,7 +4,7 @@
   <parent>
     <groupId>cern.c2mon.client</groupId>
     <artifactId>c2mon-client</artifactId>
-    <version>1.9.2</version>
+    <version>1.9.6</version>
   </parent>
 
   <groupId>cern.c2mon.web</groupId>
@@ -18,10 +18,6 @@
     <developerConnection>scm:git:ssh://git@gitlab.cern.ch:7999/c2mon/c2mon-web-restapi.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
-  
-  <properties>
-    <java.version>8</java.version>
-  </properties>
 
   <dependencies>
     <!-- C2MON dependencies -->
@@ -32,7 +28,7 @@
     <dependency>
       <groupId>cern.c2mon.client</groupId>
       <artifactId>c2mon-client-ext-history</artifactId>
-      <version>1.9.2</version>
+      <version>1.9.3</version>
     </dependency>
 
     <!-- 3rd-party dependencies -->
@@ -71,21 +67,6 @@
 
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.1</version>
-          <configuration>
-            <source>${java.version}</source>
-            <target>${java.version}</target>
-            <release>${java.version}</release>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  
     <finalName>${project.name}-${project.version}</finalName>
 
     <plugins>
