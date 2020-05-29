@@ -9,14 +9,14 @@
 
   <groupId>cern.c2mon.web</groupId>
   <artifactId>c2mon-web-restapi</artifactId>
-  <version>1.9.5</version>
+  <version>1.9.6-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <scm>
     <url>https://gitlab.cern.ch/c2mon/c2mon-web-restapi</url>
     <connection>scm:git:ssh://git@gitlab.cern.ch/c2mon/c2mon-web-restapi.git</connection>
     <developerConnection>scm:git:ssh://git@gitlab.cern.ch:7999/c2mon/c2mon-web-restapi.git</developerConnection>
-    <tag>1.9.5</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <dependencies>
