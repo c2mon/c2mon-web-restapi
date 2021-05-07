@@ -4,12 +4,12 @@
   <parent>
     <groupId>cern.c2mon.client</groupId>
     <artifactId>c2mon-client</artifactId>
-    <version>1.9.8</version>
+    <version>1.10.2</version>
   </parent>
 
   <groupId>cern.c2mon.web</groupId>
   <artifactId>c2mon-web-restapi</artifactId>
-  <version>1.9.6-SNAPSHOT</version>
+  <version>1.10.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <scm>
@@ -28,7 +28,7 @@
     <dependency>
       <groupId>cern.c2mon.client</groupId>
       <artifactId>c2mon-client-ext-history</artifactId>
-      <version>1.9.3</version>
+      <version>1.10.1</version>
     </dependency>
 
     <!-- 3rd-party dependencies -->
